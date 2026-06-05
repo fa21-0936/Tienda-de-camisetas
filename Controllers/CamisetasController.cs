@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Trabajo_PrimerParcial.Interfaces;
 using Trabajo_PrimerParcial.Models;
 
 namespace Trabajo_PrimerParcial.Controllers
@@ -11,25 +10,20 @@ namespace Trabajo_PrimerParcial.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<CamisetasController> _logger;
-        private readonly ICamisetaService _camisetaService;
 
-        public CamisetasController(
-            IConfiguration configuration,
-            ILogger<CamisetasController> logger,
-            ICamisetaService camisetaService)
+
+    public CamisetasController(
+        IConfiguration configuration,
+        ILogger<CamisetasController> logger)
         {
             _configuration = configuration;
             _logger = logger;
-            _camisetaService = camisetaService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
             _logger.LogInformation("Consulta de camisetas.");
-
-            // Uso de la interfaz
-            var datosPrueba = _camisetaService.GetCamisetas();
 
             var lista = new List<Camiseta>();
 
@@ -100,9 +94,9 @@ namespace Trabajo_PrimerParcial.Controllers
 
             string sql =
                 @"INSERT INTO Camisetas
-                  (Equipo, Talla, Precio)
-                  VALUES
-                  (@Equipo, @Talla, @Precio)";
+              (Equipo, Talla, Precio)
+              VALUES
+              (@Equipo, @Talla, @Precio)";
 
             SqlCommand cmd = new(sql, conexion);
 
@@ -125,10 +119,10 @@ namespace Trabajo_PrimerParcial.Controllers
 
             string sql =
                 @"UPDATE Camisetas
-                  SET Equipo=@Equipo,
-                      Talla=@Talla,
-                      Precio=@Precio
-                  WHERE Id=@Id";
+              SET Equipo=@Equipo,
+                  Talla=@Talla,
+                  Precio=@Precio
+              WHERE Id=@Id";
 
             SqlCommand cmd = new(sql, conexion);
 
@@ -162,4 +156,6 @@ namespace Trabajo_PrimerParcial.Controllers
             return Ok("Registro eliminado");
         }
     }
+
+
 }
